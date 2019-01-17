@@ -1,28 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import UserMgmt from "./pages/UserMgmt";
+import ProdMgmt from "./pages/ProdMgmt";
+import Sales from "./pages/Sales";
+import CheckIn from "./pages/CheckIn";
 
-class App extends Component {
+class App extends React.Component {
+  state = {
+    isSuperUser: true,
+    name:"Lester Tester"
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/dashboard" render={() => (<Dashboard isSuperUser={this.state.isSuperUser} name={this.state.name} />)} />
+            <Route exact path="/usermgmt" render={() => (<UserMgmt isSuperUser={this.state.isSuperUser} name={this.state.name} />)} />
+            <Route exact path="/prodmgmt" render={() => (<ProdMgmt isSuperUser={this.state.isSuperUser} name={this.state.name} />)} />
+            <Route exact path="/sales" render={() => (<Sales isSuperUser={this.state.isSuperUser} name={this.state.name} />)} />
+            <Route exact path="/checkin" render={() => (<CheckIn isSuperUser={this.state.isSuperUser} name={this.state.name} />)} />
+          </Switch>
+        </div>
+      </Router>
     );
-  }
-}
+  };
+};
 
 export default App;
