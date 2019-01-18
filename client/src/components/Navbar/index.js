@@ -3,7 +3,7 @@ import "./style.css";
 
 function Navbar(props) {
   return(
-    <div>
+    <div className='navbar-container'>
       <nav className="navbar navbar-expand-md navbar-dark bg-primary">
         <a className="navbar-brand" href="/dashboard">Welcome, {props.name}</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
