@@ -1,10 +1,27 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import DisplayContainer from "../components/DisplayContainer";
+import UserCard from "../components/UserCard";
+import PageTitle from "../components/PageTitle";
+import AddBtn from "../components/AddBtn";
+
+// for testing
+var userList = [
+  {
+    name: "Lester Tester",
+    time: "2019-01-18 10:35:46"
+  },
+  {
+    name: "Tester Lester",
+    time: "2019-01-18 11:28:33"
+  }
+];
 
 class UserMgmt extends React.Component {
   state = {
     name: "",
-    isSuperUser: false
+    isSuperUser: false,
+    users: userList
   }
 
   componentDidMount() {
@@ -45,6 +62,15 @@ class UserMgmt extends React.Component {
           optionOne={this.state.optionOne}
           optionTwo={this.state.optionTwo}
         />
+        <PageTitle>Current list of users</PageTitle>
+        
+        <DisplayContainer>
+          <AddBtn>Add A User</AddBtn>
+          <AddBtn>Dashboard</AddBtn>
+          {this.state.users.map(user => (
+            <UserCard username={user.name} time={user.time}/>
+          ))}
+        </DisplayContainer>
       </div>
     );
   };

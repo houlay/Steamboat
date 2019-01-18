@@ -6,6 +6,7 @@ import UserMgmt from "./pages/UserMgmt";
 import ProdMgmt from "./pages/ProdMgmt";
 import Sales from "./pages/Sales";
 import CheckIn from "./pages/CheckIn";
+import API from "./utils/API";
 
 class App extends React.Component {
   state = {

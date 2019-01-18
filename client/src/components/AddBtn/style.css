@@ -1,0 +1,8 @@
+.AddBtn {
+  justify-content: center;
+  display: inline;
+}
+.AddBtn .btn {
+  width: 46%;
+  margin-left: 10px;
+}

@@ -1,10 +1,28 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import DisplayContainer from "../components/DisplayContainer";
+import ProdCard from "../components/ProdCard";
+import PageTitle from "../components/PageTitle";
+import AddBtn from "../components/AddBtn";
+
+
+// for testing
+var prodList = [
+  {
+    name: "Package ABC"
+    
+  },
+  {
+    name: "Package XYZ"
+
+  }
+];
 
 class ProdMgmt extends React.Component {
   state = {
     name: "",
-    isSuperUser: false
+    isSuperUser: false,
+    products: prodList
   }
 
   componentDidMount() {
@@ -45,6 +63,14 @@ class ProdMgmt extends React.Component {
           optionOne={this.state.optionOne}
           optionTwo={this.state.optionTwo}
         />
+        <PageTitle>Current list of products</PageTitle>
+        <DisplayContainer>
+          <AddBtn>Add A Product</AddBtn>
+          <AddBtn>Dashboard</AddBtn>
+          {this.state.products.map(product => (
+            <ProdCard prodname={product.name} />
+          ))}
+        </DisplayContainer>
       </div>
     );
   };
