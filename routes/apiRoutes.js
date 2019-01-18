@@ -17,6 +17,34 @@ module.exports = function(app) {
     });
   });
 
+  // Get all users
+  app.post("/api/getusers", function(req, res) {
+    console.log("req = " + req.body.email);
+    db.User.findAll({
+        include: [db.Portfolio]
+    }).then(function(dbReturn) {
+      // console.log(dbReturn);
+      res.json(dbReturn);
+    });
+  });
+
+    // Creates a new User record with email and name.
+  // after this use /api/addticker with UserId to add tickers
+app.post("/api/adduser", function(req, res) {
+  console.log(req.query.email);
+  db.User.create(
+    {
+      email: req.body.email,
+      password: req.body.password,
+      name: req.body.name,
+      isSuperUser: req.body.isSuperUser
+      
+    })
+    .then(function(dbExample) {
+  res.json(dbExample);
+});
+});
+
 // takes the User table id or Portfolio table UesrId and 
 // returns everthing for the user. 
 app.post("/api/gettickersbyuserid", function(req, res) {
@@ -39,7 +67,8 @@ app.post("/api/adduser", function(req, res) {
       {
         email: req.body.email,
         password: req.body.password,
-        name: req.body.name
+        name: req.body.name,
+        isSuperUser: req.body.isSuperUser
         
       })
       .then(function(dbExample) {
