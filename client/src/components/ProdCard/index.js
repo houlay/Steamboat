@@ -6,7 +6,7 @@ function ProdCard(props) {
     <div className='card'>
       <div className='card-header'>
         <h5 className='card-title'>{props.prodname}</h5>
-        <a className='btn btn-success'>EDIT</a>
+        <a className='btn btn-success' onClick={() => (props.showModal(props.prodname))}>EDIT</a>
       </div>
       <div className='card-body'>
         <p className='card-text'>Inventory availability: 00/00</p>

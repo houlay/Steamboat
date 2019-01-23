@@ -1,17 +1,20 @@
-.card-header h5 {
+#active h5 {
   display: inline-block;
   width: 80%;
   padding-top: 5px;
+  color: white;
+}
+#inactive h5{
+  color: rgb(172, 181, 189)
 }
 .card-header a {
   position: absolute;
 }
 .card-header {
   background: #2196f3;
-  color: white;
 }
 .card {
-  margin-top: 5px;
+  margin-top: 10px;
   box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
   border: 0px;
 }

@@ -1,5 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import SalesForm from "../components/SalesForm";
+import PageTitle from "../components/PageTitle";
 
 class Sales extends React.Component {
   state = {
@@ -45,6 +47,8 @@ class Sales extends React.Component {
           optionOne={this.state.optionOne}
           optionTwo={this.state.optionTwo}
         />
+        <PageTitle>Enter customer information</PageTitle>
+        <SalesForm />
       </div>
     );
   };
