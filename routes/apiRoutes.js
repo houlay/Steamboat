@@ -5,7 +5,7 @@ module.exports = function(app) {
 // returns everthing for the user. if this returns an empty array
 // then the user does not exist so do a post to "/api/adduser"
   app.post("/api/getuserbyemailpassword", function(req, res) {
-    console.log("req = " + req.body.email);
+    console.log(req.body);    
     db.User.findAll({
         where: {
         email: req.body.email,

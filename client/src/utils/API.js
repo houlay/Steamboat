@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
   // User API's 
   getUsersByEmailPassword: function(userData) {
-    return axios.post("/api/getuserbyemailpassword");
+    return axios.post("/api/getuserbyemailpassword", userData);
   },
 
   getUsers: function() {
@@ -23,24 +23,24 @@ export default {
   },
 
   getPackageByName: function(packageData) {
-    return axios.post("/api/getPackagebyName");
+    return axios.post("/api/getPackagebyName", packageData);
   },
 
   addPackage: function(packageData) {
-    return axios.post("/api/addPackage");
+    return axios.post("/api/addPackage", packageData);
   },
 
   // Customer API's
   getCustomerById: function(CustomerData) {
-    return axios.post("/api/getCustomerbyId");
+    return axios.post("/api/getCustomerbyId", CustomerData);
   },
   // takes customer (id) and sets (isCheckedin = true)
   checkinCustomer: function(CustomerData) {
-    return axios.post("/api/checkinCustomer");
+    return axios.post("/api/checkinCustomer", CustomerData);
   },
 
   addCustomer: function(packageData) {
-    return axios.post("/api/addCustomer");
+    return axios.post("/api/addCustomer", packageData);
   },
 
   getCustomers: function() {
@@ -48,7 +48,7 @@ export default {
   },
 
   deleteCustomer: function(packageData) {
-    return axios.post("/api/deleteCustomerbyId");
+    return axios.post("/api/deleteCustomerbyId", packageData);
   }
   
 };

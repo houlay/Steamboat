@@ -41,13 +41,14 @@ class ProdMgmt extends React.Component {
      });
   };
 
-  componentDidMount() {
+  componentWillMount() {
     // Check the user's access level and then set state accordingly
     if (!this.props.isSuperUser) {
       // Set state for normal user
       this.setState({
         isSuperUser: this.props.isSuperUser,
         name: this.props.name,
+        isAuthenticated: this.props.isAuthenticated,
         hrefOne: "/sales",
         hrefTwo: "/checkin",
         optionOne: "Create a new order",
@@ -58,6 +59,7 @@ class ProdMgmt extends React.Component {
       this.setState({
         isSuperUser: this.props.isSuperUser,
         name: this.props.name,
+        isAuthenticated: this.props.isAuthenticated,
         hrefOne: "/usermgmt",
         hrefTwo: "/prodmgmt",
         optionOne: "Manage users",
@@ -67,33 +69,42 @@ class ProdMgmt extends React.Component {
   };
 
   render() {
-    return(
-      <div>
-        <Navbar
-          name={this.state.name}
-          activeStatus1="nav-item nav-link"
-          activeStatus2="nav-item nav-link"
-          activeStatus3="nav-item nav-link active"
-          hrefOne={this.state.hrefOne}
-          hrefTwo={this.state.hrefTwo}
-          optionOne={this.state.optionOne}
-          optionTwo={this.state.optionTwo}
-        />
-        <PageTitle>Current list of products</PageTitle>
-        <DisplayContainer>
-          <AddBtn showModal={this.showModal}>Add A Product</AddBtn>
-          <AddBtn>Dashboard</AddBtn>
-          {this.state.products.map(product => (
-            <ProdCard prodname={product.name} showModal={this.showModal} />
-          ))}
-        </DisplayContainer>
-        <ProdModal 
-        show={this.state.show} 
-        handleClose={this.hideModal}
-        product={this.state.targetProd}
-        />
-      </div>
-    );
+    if (this.state.isAuthenticated) {
+      return(
+        <div>
+          <Navbar
+            name={this.state.name}
+            activeStatus1="nav-item nav-link"
+            activeStatus2="nav-item nav-link"
+            activeStatus3="nav-item nav-link active"
+            hrefOne={this.state.hrefOne}
+            hrefTwo={this.state.hrefTwo}
+            optionOne={this.state.optionOne}
+            optionTwo={this.state.optionTwo}
+          />
+          <PageTitle>Current list of products</PageTitle>
+          <DisplayContainer>
+            <AddBtn showModal={this.showModal}>Add A Product</AddBtn>
+            <AddBtn>Dashboard</AddBtn>
+            {this.state.products.map(product => (
+              <ProdCard prodname={product.name} showModal={this.showModal} />
+            ))}
+          </DisplayContainer>
+          <ProdModal 
+          show={this.state.show} 
+          handleClose={this.hideModal}
+          product={this.state.targetProd}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2>Unauthenticated request!</h2>
+          <p>You need to be logged in to access this page!</p>
+        </div>
+      );
+    }
   };
 };
 
