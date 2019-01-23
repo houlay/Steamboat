@@ -34,6 +34,10 @@ export default {
   getCustomerById: function(CustomerData) {
     return axios.post("/api/getCustomerbyId");
   },
+  // takes customer (id) and sets (isCheckedin = true)
+  checkinCustomer: function(CustomerData) {
+    return axios.post("/api/checkinCustomer");
+  },
 
   addCustomer: function(packageData) {
     return axios.post("/api/addCustomer");
