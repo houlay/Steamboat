@@ -3,7 +3,7 @@ var db = require("../models");
 module.exports = function(app) {
 
   app.post("/api/getuserbyemailpassword", function(req, res) {
-    console.log("req = " + req.body.email);
+    console.log(req.body);    
     db.User.findAll({
         where: {
         email: req.body.email,
