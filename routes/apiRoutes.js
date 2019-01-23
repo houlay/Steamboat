@@ -10,8 +10,8 @@ module.exports = function(app) {
         where: {
         email: req.body.email,
         password: req.body.password
-      },
-      include: [db.Portfolio]
+      }
+      
     }).then(function(dbReturn) {
       res.json(dbReturn);
     });
@@ -19,9 +19,7 @@ module.exports = function(app) {
 
   // Get all users
   app.post("/api/getusers", function(req, res) {
-    console.log("req = " + req.body.email);
     db.User.findAll({
-        include: [db.Portfolio]
     }).then(function(dbReturn) {
       // console.log(dbReturn);
       res.json(dbReturn);
@@ -29,9 +27,7 @@ module.exports = function(app) {
   });
 
     // Creates a new User record with email and name.
-  // after this use /api/addticker with UserId to add tickers
 app.post("/api/adduser", function(req, res) {
-  console.log(req.query.email);
   db.User.create(
     {
       email: req.body.email,
@@ -45,74 +41,111 @@ app.post("/api/adduser", function(req, res) {
 });
 });
 
-// takes the User table id or Portfolio table UesrId and 
-// returns everthing for the user. 
-app.post("/api/gettickersbyuserid", function(req, res) {
+  // Delete a single user by id
+  app.delete("/api/deleteuser", function(req, res) {
+    db.User.destroy({
+        where: 
+      { 
+        id: req.body.id
+      } }).then(function(dbExample) {
+      res.json(dbExample);
+    });
+ });
+
+app.post("/api/getPackages", function(req, res) {
   
-  db.Portfolio.findAll({
-      where: {
-      UserID: req.body.UserID
-    },
-    include: [db.User]
+  db.Package.findAll({
+      
+    include: [db.Customer]
   }).then(function(dbExamples) {
     res.json(dbExamples);
   });
 });
 
-  // Creates a new User record with email and name.
-  // after this use /api/addticker with UserId to add tickers
-app.post("/api/adduser", function(req, res) {
-    console.log(req.query.email);
-    db.User.create(
+app.post("/api/getPackagebyName", function(req, res) {
+  db.Package.findAll({
+    where: {
+      name: req.body.name
+    },
+    include: [db.Customer]
+  }).then(function(dbExamples) {
+    res.json(dbExamples);
+  });
+});
+
+  
+app.post("/api/addPackage", function(req, res) {
+    console.log(req.body);
+    db.Package.create(
       {
-        email: req.body.email,
-        password: req.body.password,
         name: req.body.name,
-        isSuperUser: req.body.isSuperUser
+        occupants: req.body.occupants,
+        costPerOccupant: req.body.costPerOccupant
         
       })
       .then(function(dbExample) {
     res.json(dbExample);
   });
+
+  // Gets Customer and associated Package if it exist
+});app.post("/api/getCustomerbyId", function(req, res) {
+  db.Customer.findAll(
+    {
+      where: {
+        id: req.body.id
+      },
+      include: [db.Package]
+    })
+    .then(function(dbExample) {
+    res.json(dbExample);
+  });
 });
 
 
-  // Create a new Portfolio record
-app.post("/api/addticker", function(req, res) {
-    console.log(req.query.id);
-    db.Portfolio.create(
+
+
+app.post("/api/addCustomer", function(req, res) {
+    db.Customer.create(
       {
-        UserId: req.query.id,
-        ticker: req.query.ticker
-        // price: 10.94,
-        // description: "description"
+        name: req.body.name,
+        email: req.body.email,
+        PackageId: req.body.PackageId
       })
       .then(function(dbExample) {
     res.json(dbExample);
   });
 });
-   // Delete a single ticker by id
-   // use Portfolio id not (User UsreId will delete all Portfolio records for the user)
-  app.delete("/api/deleteticker", function(req, res) {
-     console.log("id=  " + req.query.id);
-    db.Portfolio.destroy({
-       where: 
-      { 
-        id: req.query.id 
+
+app.post("/api/getCustomers", function(req, res) {
+ db.Customer.findAll(
+    {
+      include: [db.Package]
+    })
+    .then(function(dbExample) {
+    res.json(dbExample);
+  });
+});
+
+app.post("/api/checkinCustomer", function(req, res) {
+  console.log(req.body);
+  db.Customer.update({
+    isCheckedin: true
+  },
+  {
+    where: {id: req.body.id }
+  }).then(function(dbExample) {
+    res.json(dbExample);
+  });
+});
+
+  app.post("/api/deleteCustomerbyId", function(req, res) {
+    db.Customer.destroy({
+       where: { 
+        id: req.body.id 
       } }).then(function(dbExample) {
       res.json(dbExample);
     });
   });
 
-   // Delete a single user by id
-   app.delete("/api/deleteuser", function(req, res) {
-    console.log("id=  " + req.query.id);
-   db.User.destroy({
-      where: 
-     { 
-       id: req.query.id 
-     } }).then(function(dbExample) {
-     res.json(dbExample);
-   });
- });
+ 
 };

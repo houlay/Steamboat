@@ -1,5 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import PageTitle from "../components/PageTitle";
+import CheckInForms from "../components/CheckInForms";
 
 class CheckIn extends React.Component {
   state = {
@@ -45,6 +47,8 @@ class CheckIn extends React.Component {
           optionOne={this.state.optionOne}
           optionTwo={this.state.optionTwo}
         />
+        <PageTitle>Reservation Lookup</PageTitle>
+        <CheckInForms />
       </div>
     );
   };

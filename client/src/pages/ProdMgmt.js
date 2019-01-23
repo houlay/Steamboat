@@ -4,6 +4,7 @@ import DisplayContainer from "../components/DisplayContainer";
 import ProdCard from "../components/ProdCard";
 import PageTitle from "../components/PageTitle";
 import AddBtn from "../components/AddBtn";
+import ProdModal from "../components/ProdModal";
 
 
 // for testing
@@ -22,8 +23,23 @@ class ProdMgmt extends React.Component {
   state = {
     name: "",
     isSuperUser: false,
-    products: prodList
+    products: prodList,
+    targetProd: ""
   }
+
+  showModal = (prodname) => {
+    this.setState({ 
+      show: true,
+      targetProd: prodname
+     });
+  };
+
+  hideModal = () => {
+    this.setState({ 
+      show: false,
+      targetProd: ""
+     });
+  };
 
   componentDidMount() {
     // Check the user's access level and then set state accordingly
@@ -65,12 +81,17 @@ class ProdMgmt extends React.Component {
         />
         <PageTitle>Current list of products</PageTitle>
         <DisplayContainer>
-          <AddBtn>Add A Product</AddBtn>
+          <AddBtn showModal={this.showModal}>Add A Product</AddBtn>
           <AddBtn>Dashboard</AddBtn>
           {this.state.products.map(product => (
-            <ProdCard prodname={product.name} />
+            <ProdCard prodname={product.name} showModal={this.showModal} />
           ))}
         </DisplayContainer>
+        <ProdModal 
+        show={this.state.show} 
+        handleClose={this.hideModal}
+        product={this.state.targetProd}
+        />
       </div>
     );
   };
