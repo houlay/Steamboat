@@ -30,10 +30,19 @@ export default {
     return axios.post("/api/addPackage", packageData);
   },
 
+  updatePackageOccupants: function(packageData) {
+    return axios.post("/api/updatePackageOccupants", packageData);
+  },
+
   // Customer API's
+  getCustomerbyFullName: function(CustomerData) {
+    return axios.post("/api/getCustomerbyFullName", CustomerData);
+  },
+
   getCustomerById: function(CustomerData) {
     return axios.post("/api/getCustomerbyId", CustomerData);
   },
+  
   // takes customer (id) and sets (isCheckedin = true)
   checkinCustomer: function(CustomerData) {
     return axios.post("/api/checkinCustomer", CustomerData);

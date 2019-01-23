@@ -1,9 +1,7 @@
 var db = require("../models");
 
 module.exports = function(app) {
-// takes the User table email, example "test@test.com 
-// returns everthing for the user. if this returns an empty array
-// then the user does not exist so do a post to "/api/adduser"
+
   app.post("/api/getuserbyemailpassword", function(req, res) {
     console.log(req.body);    
     db.User.findAll({
@@ -26,20 +24,20 @@ module.exports = function(app) {
     });
   });
 
-    // Creates a new User record with email and name.
-app.post("/api/adduser", function(req, res) {
-  db.User.create(
-    {
-      email: req.body.email,
-      password: req.body.password,
-      name: req.body.name,
-      isSuperUser: req.body.isSuperUser
-      
-    })
-    .then(function(dbExample) {
-  res.json(dbExample);
-});
-});
+  // Creates a new User record with email and name.
+  app.post("/api/adduser", function(req, res) {
+    db.User.create(
+      {
+        email: req.body.email,
+        password: req.body.password,
+        name: req.body.name,
+        isSuperUser: req.body.isSuperUser
+        
+      })
+      .then(function(dbExample) {
+    res.json(dbExample);
+  });
+  });
 
   // Delete a single user by id
   app.delete("/api/deleteuser", function(req, res) {
@@ -86,13 +84,37 @@ app.post("/api/addPackage", function(req, res) {
       .then(function(dbExample) {
     res.json(dbExample);
   });
+});
 
-  // Gets Customer and associated Package if it exist
-});app.post("/api/getCustomerbyId", function(req, res) {
+app.post("/api/updatePackageOccupants", function(req, res) {
+  db.Package.update({
+    occupants: req.body.occupants
+  },
+  {
+    where: {id: req.body.id }
+  }).then(function(dbExample) {
+    res.json(dbExample);
+  });
+});
+
+app.post("/api/getCustomerbyId", function(req, res) {
   db.Customer.findAll(
     {
       where: {
         id: req.body.id
+      },
+      include: [db.Package]
+    })
+    .then(function(dbExample) {
+    res.json(dbExample);
+  });
+});
+
+app.post("/api/getCustomerbyFullName", function(req, res) {
+  db.Customer.findAll(
+    {
+      where: {
+        name: req.body.name
       },
       include: [db.Package]
     })
