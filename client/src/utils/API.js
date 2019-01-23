@@ -30,6 +30,10 @@ export default {
     return axios.post("/api/addPackage", packageData);
   },
 
+  updatePackageOccupants: function(packageData) {
+    return axios.post("/api/updatePackageOccupants", packageData);
+  },
+
   // Customer API's
   getCustomerbyFullName: function(CustomerData) {
     return axios.post("/api/getCustomerbyFullName", CustomerData);
