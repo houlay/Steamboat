@@ -10,7 +10,7 @@ import API from "./utils/API";
 
 class App extends React.Component {
   state = {
-    isSuperUser: true,
+    isSuperUser: false,
     name:"Lester Tester"
   }
 

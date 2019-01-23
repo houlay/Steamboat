@@ -1,0 +1,10 @@
+.container {
+  max-width: 350px;
+  margin-top: 50px;
+}
+.resultDisplay {
+  display: block;
+}
+.resultDisplay-hide {
+  display: none;
+}
