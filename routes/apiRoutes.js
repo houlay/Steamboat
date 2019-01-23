@@ -84,8 +84,17 @@ app.post("/api/addPackage", function(req, res) {
       .then(function(dbExample) {
     res.json(dbExample);
   });
+});
 
-  // Gets Customer and associated Package if it exist
+app.post("/api/updatePackageOccupants", function(req, res) {
+  db.Package.update({
+    occupants: req.body.occupants
+  },
+  {
+    where: {id: req.body.id }
+  }).then(function(dbExample) {
+    res.json(dbExample);
+  });
 });
 
 app.post("/api/getCustomerbyId", function(req, res) {
