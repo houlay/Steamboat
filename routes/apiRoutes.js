@@ -117,8 +117,7 @@ app.post("/api/addCustomer", function(req, res) {
 });
 
 app.post("/api/getCustomers", function(req, res) {
-  console.log("incoming = " + req.body);
-  db.Customer.findAll(
+ db.Customer.findAll(
     {
       include: [db.Package]
     })
@@ -127,8 +126,18 @@ app.post("/api/getCustomers", function(req, res) {
   });
 });
 
-   // Delete a single ticker by id
-   // use Portfolio id not (User UsreId will delete all Portfolio records for the user)
+app.post("/api/checkinCustomer", function(req, res) {
+  console.log(req.body);
+  db.Customer.update({
+    isCheckedin: true
+  },
+  {
+    where: {id: req.body.id }
+  }).then(function(dbExample) {
+    res.json(dbExample);
+  });
+});
+
   app.post("/api/deleteCustomerbyId", function(req, res) {
     db.Customer.destroy({
        where: { 
