@@ -24,7 +24,7 @@ app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-var syncOptions = { force: true };
+var syncOptions = { force: false };
 
 if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
