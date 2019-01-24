@@ -1,0 +1,10 @@
+#result {
+  border: 1px;
+}
+#result .btn {
+  margin-top: 10px;
+}
+#noResult {
+  margin-top: 50px;
+  text-align: center;
+}

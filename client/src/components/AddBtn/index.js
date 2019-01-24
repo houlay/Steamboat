@@ -5,7 +5,7 @@ function AddBtn(props) {
   if (props.showModal) {
     return (
       <div className='AddBtn'>
-        <button className='btn btn-secondary' type='button' onClick={() => (props.showModal(""))}>{props.children}</button>
+        <button className='btn btn-secondary' type='button' onClick={() => (props.showModal("add"))}>{props.children}</button>
       </div>
     );
   } else {

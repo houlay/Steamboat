@@ -1,32 +1,31 @@
 import React from "react";
 import "./style.css";
+import API from "../../utils/API";
+import SalesResult from "../SalesResult";
 
-// for testing
-var packageLists = [
-  {
-    key: 1,
-    name: "Package ABC"
-  },
-  {
-    key: 2,
-    name: "Package XYZ"
-  }
-];
 
 class SalesForm extends React.Component {
 
   state = {
-    packageList: [],
+    products: [],
     firstname: "",
     lastname: "",
     email: "",
-    packageChosen: ""
+    packageChosen: "",
+    orderId: "",
+    customerName: "",
+    orderDate: "",
+    show: false
   };
 
-  componentDidMount() {
-    this.setState({
-      packageList: packageLists
-    });
+  componentWillMount() {
+    API.getPackages()
+    .then(res => {
+      console.log(res);
+      let validPackages = res.data.filter(arr => (arr.occupants != 0));
+      this.setState({ products: validPackages });
+    })
+    .catch(err => console.log(err));
   };
 
   handleInputChange = (event) => {
@@ -41,6 +40,54 @@ class SalesForm extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    let fullName = this.state.firstname + " " + this.state.lastname;
+    let packageId;
+    let originalOccupants;
+    let orderId;
+    let customerName;
+    let orderDate;
+    event.preventDefault();
+    API.getPackageByName({
+      name: this.state.packageChosen
+    })
+      .then(res => {
+        packageId = res.data[0].id;
+        originalOccupants = res.data[0].occupants;
+        API.addCustomer({
+          name: fullName,
+          email: this.state.email,
+          PackageId: packageId,
+        })
+          .then(res => {
+            let updatePackage = res.data.PackageId
+            let updateOccupants = originalOccupants - 1;
+            orderId = res.data.id;
+            customerName = res.data.name;
+            orderDate = res.data.createdAt;
+
+            API.updatePackageOccupants({
+              id: updatePackage,
+              occupants: updateOccupants
+            })
+              .then(res => {
+                console.log(res)
+                this.setState({
+                  orderId: orderId,
+                  customerName: customerName,
+                  orderDate: orderDate,
+                  show: true,
+                  // Reset the form
+                  firstname: "",
+                  lastname: "",
+                  email: "",
+                  packageChosen: "Choose a package"
+                });
+              })
+              .catch(err => console.log(err))            
+          })
+          .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -59,26 +106,23 @@ class SalesForm extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
-            <input name="email" value={this.state.email} type="email" className="form-control" id="email" placeholder="abc@xyz.com" onChange={this.handleInputChange} />
+            <input name="email" value={this.state.email} type="email" className="form-control" id="email" onChange={this.handleInputChange} />
           </div>
           <div className="form-group">
             <label htmlFor="package">Package</label>
             <select id="package" className="form-control" name="packageChosen" value={this.state.packageChosen} onChange={this.handleInputChange}>
               <option defaultValue="selected">Choose a package</option>
-              {this.state.packageList.map((pack) => <option key={pack.key}>{pack.name}</option>)}
+              {this.state.products.map((pack) => <option name="packageChosen" value={pack.key} key={pack.key}>{pack.name}</option>)}
             </select>
           </div>
-          
-          {/* <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="gridCheck" />
-              <label class="form-check-label" for="gridCheck">
-                Check me out
-              </label>
-            </div>
-          </div> */}
-          <button type="submit" className="btn btn-primary">Process this order</button>
+
+          <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Process this order</button>
         </form>
+        <SalesResult
+          name={this.state.customerName}
+          orderId={this.state.orderId}
+          show={this.state.show}
+        />
       </div>
     )
   };
