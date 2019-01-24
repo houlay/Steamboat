@@ -39,6 +39,23 @@ module.exports = function(app) {
   });
   });
 
+  app.post("/api/updateUser", function(req, res) {
+    db.User.update(
+    {
+      email: req.body.email,
+      password: req.body.password,
+      name: req.body.name,
+      isSuperUser: req.body.isSuperUser,
+      isActive: req.body.isActive
+    },
+    {
+      where: {name: req.body.name }
+      
+    }).then(function(dbExample) {
+      res.json(dbExample);
+    });
+  });
+
   // Delete a single user by id
   app.delete("/api/deleteuser", function(req, res) {
     db.User.destroy({

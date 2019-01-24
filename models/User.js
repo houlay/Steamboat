@@ -6,7 +6,10 @@ module.exports = function(sequelize, DataTypes) {
       password: DataTypes.STRING,
       isSuperUser: { type:  DataTypes.BOOLEAN, 
                             allowNull: false, 
-                            defaultValue: false}
+                            defaultValue: false},
+      isActive: { type:  DataTypes.BOOLEAN, 
+        allowNull: false, 
+        defaultValue: true}
     });
   
     return User;
