@@ -24,15 +24,14 @@ class Login extends React.Component {
         if (res.data === []) {
           // handle invalid user login
         } else {
-          // process login
-          console.log(res.data);
-          
+          // Send user data back to parent          
           const userData = { name: res.data[0].name, isSuperUser: res.data[0].isSuperUser };
           this.props.callbackFromParent(userData);
-          
+          // Process login request
           this.setState({
             name: res.data[0].name,
             isSuperUser: res.data[0].isSuperUser,
+            isActive: res.data[0].isActive,
             needRedirect: true
           });          
         }
@@ -77,7 +76,8 @@ class Login extends React.Component {
             className='form-control' 
             type='password' 
             placeholder='Enter your password' 
-            id='userPass' />
+            id='userPass' 
+          />
         </div>
         <button type='submit' className='btn btn-primary' onClick={this.handleSubmit}>Login</button>
       </form>

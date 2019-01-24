@@ -31,8 +31,8 @@ module.exports = function(app) {
         email: req.body.email,
         password: req.body.password,
         name: req.body.name,
-        isSuperUser: req.body.isSuperUser
-        
+        isSuperUser: req.body.isSuperUser,
+        isActive: req.body.isActive
       })
       .then(function(dbExample) {
     res.json(dbExample);
