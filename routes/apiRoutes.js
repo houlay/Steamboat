@@ -3,7 +3,7 @@ var db = require("../models");
 module.exports = function(app) {
 
   app.post("/api/getuserbyemailpassword", function(req, res) {
-    console.log("req = " + req.body.email);
+    console.log(req.body);    
     db.User.findAll({
         where: {
         email: req.body.email,
@@ -31,8 +31,8 @@ module.exports = function(app) {
         email: req.body.email,
         password: req.body.password,
         name: req.body.name,
-        isSuperUser: req.body.isSuperUser
-        
+        isSuperUser: req.body.isSuperUser,
+        isActive: req.body.isActive
       })
       .then(function(dbExample) {
     res.json(dbExample);

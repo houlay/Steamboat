@@ -8,8 +8,9 @@ module.exports = function(sequelize, DataTypes) {
                             allowNull: false, 
                             defaultValue: false},
       isActive: { type:  DataTypes.BOOLEAN, 
-        allowNull: false, 
-        defaultValue: true}
+                            allowNull: false, 
+                            defaultValue: true}
+
     });
   
     return User;

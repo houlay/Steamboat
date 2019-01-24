@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";
+import {Link} from "react-router-dom"
 
 function Navbar(props) {
   return(
@@ -11,9 +12,9 @@ function Navbar(props) {
         </button>
         <div className="collapse navbar-collapse" id="navbar">
           <div className="navbar-nav">
-            <a className = {props.activeStatus1} href="/dashboard">Dashboard</a>
-            <a className = {props.activeStatus2} href={props.hrefOne}>{props.optionOne}</a>
-            <a className = {props.activeStatus3} href={props.hrefTwo}>{props.optionTwo}</a>
+            <Link className={props.activeStatus1} to={"/dashboard"}>Dashboard</Link>
+            <Link className={props.activeStatus2} to={props.hrefOne}>{props.optionOne}</Link>
+            <Link className={props.activeStatus3} to={props.hrefTwo}>{props.optionTwo}</Link>
             <a className = "nav-item nav-link" href="/">Log Out</a>
           </div>
         </div>

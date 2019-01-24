@@ -9,13 +9,14 @@ class CheckIn extends React.Component {
     isSuperUser: false
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // Check the user's access level and then set state accordingly
     if (!this.props.isSuperUser) {
       // Set state for normal user
       this.setState({
         isSuperUser: this.props.isSuperUser,
         name: this.props.name,
+        isAuthenticated: this.props.isAuthenticated,
         hrefOne: "/sales",
         hrefTwo: "/checkin",
         optionOne: "Create a new order",
@@ -26,6 +27,7 @@ class CheckIn extends React.Component {
       this.setState({
         isSuperUser: this.props.isSuperUser,
         name: this.props.name,
+        isAuthenticated: this.props.isAuthenticated,
         hrefOne: "/usermgmt",
         hrefTwo: "/prodmgmt",
         optionOne: "Manage users",
@@ -35,22 +37,31 @@ class CheckIn extends React.Component {
   };
 
   render() {
-    return(
-      <div>
-        <Navbar
-          name={this.state.name}
-          activeStatus1="nav-item nav-link"
-          activeStatus2="nav-item nav-link"
-          activeStatus3="nav-item nav-link active"
-          hrefOne={this.state.hrefOne}
-          hrefTwo={this.state.hrefTwo}
-          optionOne={this.state.optionOne}
-          optionTwo={this.state.optionTwo}
-        />
-        <PageTitle>Reservation Lookup</PageTitle>
-        <CheckInForms />
-      </div>
-    );
+    if (this.state.isAuthenticated) {
+      return(
+        <div>
+          <Navbar
+            name={this.state.name}
+            activeStatus1="nav-item nav-link"
+            activeStatus2="nav-item nav-link"
+            activeStatus3="nav-item nav-link active"
+            hrefOne={this.state.hrefOne}
+            hrefTwo={this.state.hrefTwo}
+            optionOne={this.state.optionOne}
+            optionTwo={this.state.optionTwo}
+          />
+          <PageTitle>Reservation Lookup</PageTitle>
+          <CheckInForms />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2>Unauthenticated request!</h2>
+          <p>You need to be logged in to access this page!</p>
+        </div>
+      );
+    };
   };
 };
 

@@ -4,7 +4,8 @@ import Navbar from "../components/Navbar";
 class Dashboard extends React.Component {
   state = {
     name: "",
-    isSuperUser: false
+    isSuperUser: false,
+    isAuthenticated: false
   }
 
   componentDidMount() {
@@ -14,6 +15,7 @@ class Dashboard extends React.Component {
       this.setState({
         isSuperUser: this.props.isSuperUser,
         name: this.props.name,
+        isAuthenticated: this.props.isAuthenticated,
         hrefOne: "/sales",
         hrefTwo: "/checkin",
         optionOne: "Create a new order",
@@ -24,6 +26,7 @@ class Dashboard extends React.Component {
       this.setState({
         isSuperUser: this.props.isSuperUser,
         name: this.props.name,
+        isAuthenticated: this.props.isAuthenticated,
         hrefOne: "/usermgmt",
         hrefTwo: "/prodmgmt",
         optionOne: "Manage users",
@@ -33,20 +36,29 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    return(
-      <div>
-        <Navbar
-          name={this.state.name}
-          activeStatus1="nav-item nav-link active"
-          activeStatus2="nav-item nav-link"
-          activeStatus3="nav-item nav-link"
-          hrefOne={this.state.hrefOne}
-          hrefTwo={this.state.hrefTwo}
-          optionOne={this.state.optionOne}
-          optionTwo={this.state.optionTwo}
-        />
-      </div>
-    );
+    if (this.state.isAuthenticated) {
+      return(
+        <div>
+          <Navbar
+            name={this.state.name}
+            activeStatus1="nav-item nav-link active"
+            activeStatus2="nav-item nav-link"
+            activeStatus3="nav-item nav-link"
+            hrefOne={this.state.hrefOne}
+            hrefTwo={this.state.hrefTwo}
+            optionOne={this.state.optionOne}
+            optionTwo={this.state.optionTwo}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2>Unauthenticated request!</h2>
+          <p>You need to be logged in to access this page!</p>
+        </div>
+      );
+    };    
   };
 };
 
