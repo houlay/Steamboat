@@ -1,8 +1,9 @@
 # Steamboat
 
 Please use this credential to access this APP:
-username: admin@steamboat.com
-password: admin
+* deployed app: https://steam-boat.herokuapp.com/
+* username: admin@steamboat.com
+* password: admin
 
 ## Overview
 
