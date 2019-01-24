@@ -11,7 +11,7 @@ function AddBtn(props) {
   } else {
     return (
       <div className='AddBtn'>
-        <a className='btn btn-secondary' href="/dashboard" role='button'>{props.children}</a>
+        <button className='btn btn-secondary'  type='button' onClick={props.handleRefresh}>{props.children}</button>
       </div>
     );
   };

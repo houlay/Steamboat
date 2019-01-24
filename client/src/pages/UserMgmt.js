@@ -1,45 +1,51 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import DisplayContainer from "../components/DisplayContainer";
-import UserCard from "../components/UserCard";
 import PageTitle from "../components/PageTitle";
 import AddBtn from "../components/AddBtn";
 import UserModal from "../components/UserModal";
-import API from "../utils/API";
+import UserCardHolder from "../components/UserCardHolder";
+import { Redirect } from 'react-router-dom';
 
 
 class UserMgmt extends React.Component {
   
-  constructor() {
-    this.userList = null;
-  }
-
   state = {
     name: "",
     isSuperUser: false,
     show: false,
     targetUser: "",
-    users: [],
+    targetUserEmail: "",
+    targetUserIsSuperUser: false,
+    targetUserIsActive: true,
     hrefOne: "",
     hrefTwo: "",
     optionOne: "",
-    optionTwo: ""
+    optionTwo: "",
+    needRedirect: false
   }
 
-  loadUsers = () => {
-    // Get current user list from database
-    API.getUsers()
-      .then(res => {
-        this.userList = res.data;
-      })
-      .catch(err => console.log(err));
+  handleRefresh = () => {
+    this.setState({ needRedirect: true });
   };
 
-  showModal = (username) => {
-    this.setState({ 
-      show: true,
-      targetUser: username
-     });
+  showModal = (dataFromCallback) => {
+    if (dataFromCallback) {
+      this.setState({ 
+        show: true,
+        targetUser: dataFromCallback.username,
+        targetUserEmail: dataFromCallback.email,
+        targetUserIsSuperUser: dataFromCallback.isSuperUser,
+        targetUserIsActive: dataFromCallback.isActive
+      });
+    } else if (dataFromCallback === ""){
+      this.setState({
+        show: true,
+        targetUser: "",
+        targetUserIsSuperUser: false,
+        targetUserIsActive: true
+      });
+    };    
   };
 
   hideModal = () => {
@@ -50,7 +56,6 @@ class UserMgmt extends React.Component {
   };
 
   componentWillMount() {
-    this.loadUsers();
     // Check the user's access level and then set state accordingly
     if (this.props.isSuperUser) {
       // Set state for super user
@@ -62,10 +67,7 @@ class UserMgmt extends React.Component {
         hrefTwo: "/prodmgmt",
         optionOne: "Manage users",
         optionTwo: "Manage products",
-        users: this.userList
       });
-      console.log("i ran!")
-      console.log(this.state.users)
     };
   }
 
@@ -73,36 +75,35 @@ class UserMgmt extends React.Component {
     if (this.state.isAuthenticated) {
       return(
         <div>
-          <Navbar
-            name={this.state.name}
-            activeStatus1="nav-item nav-link"
-            activeStatus2="nav-item nav-link active"
-            activeStatus3="nav-item nav-link"
-            hrefOne={this.state.hrefOne}
-            hrefTwo={this.state.hrefTwo}
-            optionOne={this.state.optionOne}
-            optionTwo={this.state.optionTwo}
-          />
-          <PageTitle>Current list of users</PageTitle>
-          
-          <DisplayContainer>
-            <AddBtn showModal={this.showModal}>Add A User</AddBtn>
-            <AddBtn>Dashboard</AddBtn>
-            {this.state.users.map(user => (
-              <UserCard 
-                key={user.id}
-                username={user.name} 
-                isSuperUser={user.isSuperUser} 
-                showModal={this.showModal}
-                isActive={user.isActive}
-              />
-            ))}
-          </DisplayContainer>
-          <UserModal 
-          show={this.state.show} 
-          handleClose={this.hideModal}
-          user={this.state.targetUser}
-          />
+          {this.state.needRedirect ? <Redirect to="/dashboard" /> :
+          <div>
+            <Navbar
+              name={this.state.name}
+              activeStatus1="nav-item nav-link"
+              activeStatus2="nav-item nav-link active"
+              activeStatus3="nav-item nav-link"
+              hrefOne={this.state.hrefOne}
+              hrefTwo={this.state.hrefTwo}
+              optionOne={this.state.optionOne}
+              optionTwo={this.state.optionTwo}
+            />
+            <PageTitle>Current list of users</PageTitle>
+            
+            <DisplayContainer>
+              <AddBtn showModal={this.showModal}>Add A User</AddBtn>
+              <AddBtn handleRefresh={this.handleRefresh}>Dashboard</AddBtn>
+              <UserCardHolder showModal={this.showModal} callbackFromUserMgmt={this.userCardHolderCallback}/>
+            </DisplayContainer>
+            <UserModal 
+            show={this.state.show} 
+            handleClose={this.hideModal}
+            user={this.state.targetUser}
+            email={this.state.targetUserEmail}
+            isSuperUser={this.state.isSuperUser}
+            isActive={this.state.isActive}
+            />
+          </div>
+          }
         </div>
       );
     } else {
