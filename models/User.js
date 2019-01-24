@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
       isActive: { type:  DataTypes.BOOLEAN, 
                             allowNull: false, 
                             defaultValue: true}
+
     });
   
     return User;

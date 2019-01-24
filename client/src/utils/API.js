@@ -14,6 +14,10 @@ export default {
     return axios.post("/api/adduser", userData);
   },
 
+  updateUser: function(userData) {
+    return axios.post("/api/updateUser", userData);
+  },
+
   deleteUser: function(userData) {
     return axios.post("/api/deleteuser", userData);
   },
