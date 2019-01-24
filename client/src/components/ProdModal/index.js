@@ -1,65 +1,90 @@
 import React from "react";
 import "./style.css";
+import API from "../../utils/API";
 
-const ProdModal = (props) => {
-  const showHideClassName = props.show ? "modal display-block" : "modal display-none";
+class ProdModal extends React.Component {
 
-  return (
-    <div className={showHideClassName}>
-      <div className="modal-main">
-        <div className="modalContent">
+  state = {
+    productName: "",
+    occupants: "",
+    cost: "",
+  }
 
-          <form>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="prodName">Package Name</label>
-                <input type="text" class="form-control" id="prodName" defaultValue={props.product} />
-              </div>
-            </div>
-              
+  handleInputChange = (event) => {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
 
-            <fieldset class="form-group">
-              <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">Position</legend>
-                <div class="col-sm-10">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked />
-                    <label class="form-check-label" for="gridRadios1">
-                      Employee
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-                    <label class="form-check-label" for="gridRadios2">
-                      Manager
-                    </label>
-                  </div>                  
+    this.setState({
+      [name]: value
+    })
+  };
+
+  handleSubmit = (event) => {
+    let occupantInteger = parseInt(this.state.occupants);
+    let costFloat = parseFloat(this.state.cost);
+
+    event.preventDefault();
+    if (this.props.product === "") {
+      API.addPackage({
+        name: this.state.productName,
+        occupants: occupantInteger,
+        costPerOccupant: costFloat
+      })
+      .then(res => {
+        this.props.handleClose();
+      })
+      .catch(err => console.log(err))      
+    } else {
+      console.log(this.props.productId)
+      API.updatePackageOccupants({
+        id: this.props.productId,
+        occupants: occupantInteger
+      })
+      .then(res => {
+        console.log(res);
+        this.props.handleClose();
+      })
+      .catch(err => console.log(err))
+    };
+  };
+
+  render() {
+    const showHideClassName = this.props.show ? "modal display-block" : "modal display-none";
+
+    return (      
+      <div className={showHideClassName}>
+        <div className="modal-main">
+          <div className="modalContent">
+
+            <form>
+              <div className="form-group">
+                <label htmlFor="productName">Package Name</label>
+                <div>
+                  <input type="text" className="form-control" id="productName" name="productName" defaultValue={this.props.product} onChange={this.handleInputChange} />
                 </div>
               </div>
-            </fieldset>
-
-            <div class="form-group row">
-              <div class="col-sm-2">Access</div>
-              <div class="col-sm-10">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck1" />
-                  <label class="form-check-label" for="gridCheck1">
-                    Disable this account
-                  </label>
-                </div>
+                
+              <div className="form-group">
+                <label htmlFor="occupants">Available spot left</label>
+                <input type="text" className="form-control" id="occupants" name="occupants" defaultValue={this.props.occupants} onChange={this.handleInputChange} />
               </div>
-            </div>
-          </form>
+              <div className="form-group">
+                <label htmlFor="cost">Cost per occupant</label>
+                <input type="text" className="form-control" id="cost" name="cost" defaultValue={this.props.cost} onChange={this.handleInputChange} />
+              </div>
+            </form>
+
+          </div>
+          <div className="btn-container">
+          <button className="btn btn-success" onClick={this.handleSubmit}>Save</button>
+          <button className="btn btn-primary" onClick={this.props.handleClose}>Close</button>
+          </div>
 
         </div>
-        <div className="btn-container">
-        <button className="btn btn-success">Save</button>
-        <button className="btn btn-primary" onClick={props.handleClose}>Close</button>
-        </div>
-
       </div>
-    </div>
-  );
+    );
+  };
 };
 
 export default ProdModal;

@@ -13,7 +13,7 @@ class UserModal extends React.Component {
     isSuperUser: false,
     isActive: true,
     setSuperUser: false,
-    setDisable: false
+    setDisable: false,
   }
 
   handleInputChange = (event) => {
@@ -40,19 +40,8 @@ class UserModal extends React.Component {
 
   handleSubmit = () => {
     if (this.props.user === "") {
-      const fullname = this.state.firstName + " " + this.state.lastName;
-      if (this.state.password1 == this.state.password2) {
-        API.updateUser({
-          name: fullname,
-          email: this.state.email,
-          password: this.state.password1,
-          isSuperUser: this.state.setSuperUser,
-          isActive: true //this.state.setDisable
-        })
-          .then(res => this.props.handleClose())
-          .catch(err => console.log(err));
-      };
-    } else {
+      console.log("I ran!");
+      console.log(this.props.user)
       const fullname = this.state.firstName + " " + this.state.lastName;
       if (this.state.password1 == this.state.password2) {
         API.addUser({
@@ -64,8 +53,21 @@ class UserModal extends React.Component {
         })
           .then(res => this.props.handleClose())
           .catch(err => console.log(err));
-      }; 
-    };     
+      } else {
+          const fullname = this.state.firstName + " " + this.state.lastName;
+          if (this.state.password1 == this.state.password2) {
+            API.updateUser({
+              name: fullname,
+              email: this.state.email,
+              password: this.state.password1,
+              isSuperUser: this.state.setSuperUser,
+              isActive: true //this.state.setDisable
+            })
+              .then(res => this.props.handleClose())
+              .catch(err => console.log(err));
+          };     
+        };
+    };
   };
 
   componentDidMount() {

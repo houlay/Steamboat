@@ -18,7 +18,7 @@ class UserCardHolder extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="user-card-holder">
         {this.state.users.map(user => (
           <UserCard 
             key={user.id}
@@ -27,6 +27,7 @@ class UserCardHolder extends React.Component {
             isSuperUser={user.isSuperUser}
             isActive={user.isActive}
             showModal={this.props.showModal}
+            updatedAt={user.updatedAt}
           />
         ))}
       </div>

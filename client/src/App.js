@@ -7,6 +7,7 @@ import ProdMgmt from "./pages/ProdMgmt";
 import Sales from "./pages/Sales";
 import CheckIn from "./pages/CheckIn";
 import API from "./utils/API";
+import "./App.css";
 
 class App extends React.Component {
   state = {
@@ -14,8 +15,6 @@ class App extends React.Component {
     isAuthenticated: false,
     isActive: false,
     name:"Lester Tester",
-    userList: null,
-    packageList: null
   }
 
   userAuthCallback = (dataFromLogin) => {
@@ -26,16 +25,7 @@ class App extends React.Component {
       isActive: dataFromLogin.isActive,
       isAuthenticated: true
     });
-  };
-
-  loadPackages = () => {
-    // Get current list of products from database
-    API.getPackages()
-      .then(res => {
-        this.setState({ packageList: res.data });
-      })
-      .catch(err => console.log(err));
-  };
+  };  
 
   render() {
     return (

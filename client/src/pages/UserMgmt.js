@@ -29,8 +29,15 @@ class UserMgmt extends React.Component {
     this.setState({ needRedirect: true });
   };
 
-  showModal = (dataFromCallback) => {
-    if (dataFromCallback) {
+  showModal = (dataFromCallback) => {      
+    if (dataFromCallback === "add"){
+      this.setState({
+        show: true,
+        targetUser: "",
+        targetUserIsSuperUser: false,
+        targetUserIsActive: true
+      });
+    } else {
       this.setState({ 
         show: true,
         targetUser: dataFromCallback.username,
@@ -38,14 +45,7 @@ class UserMgmt extends React.Component {
         targetUserIsSuperUser: dataFromCallback.isSuperUser,
         targetUserIsActive: dataFromCallback.isActive
       });
-    } else if (dataFromCallback === ""){
-      this.setState({
-        show: true,
-        targetUser: "",
-        targetUserIsSuperUser: false,
-        targetUserIsActive: true
-      });
-    };    
+    };
   };
 
   hideModal = () => {
@@ -92,7 +92,7 @@ class UserMgmt extends React.Component {
             <DisplayContainer>
               <AddBtn showModal={this.showModal}>Add A User</AddBtn>
               <AddBtn handleRefresh={this.handleRefresh}>Dashboard</AddBtn>
-              <UserCardHolder showModal={this.showModal} callbackFromUserMgmt={this.userCardHolderCallback}/>
+              <UserCardHolder showModal={this.showModal} />
             </DisplayContainer>
             <UserModal 
             show={this.state.show} 
