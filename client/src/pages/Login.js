@@ -23,6 +23,7 @@ class Login extends React.Component {
       .then(res => {
         if (res.data === []) {
           // handle invalid user login
+          console.log("invalid login");
         } else {
           // Send user data back to parent          
           const userData = { name: res.data[0].name, isSuperUser: res.data[0].isSuperUser };
