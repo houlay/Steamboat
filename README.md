@@ -23,6 +23,6 @@ In the future we plan to add:
   * customize how the dashboard would look eg. what items to display
 * logging system for site activities:
   * keep a log of all of the orders
-  * log all of the employee level accounts's activity (eg. order creation and customer checkin)
+  * log all of the employee level accounts' activity (eg. order creation and customer checkin)
 * invoice feature for customers
 * live chat feature between team members
